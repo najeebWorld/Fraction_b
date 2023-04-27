@@ -103,7 +103,7 @@ namespace ariel {
     }
 
     bool Fraction::operator==(const float& value) const {
-        return numerator == round(value * denominator);
+        return numerator == value * denominator;
     }
 
     bool operator==(const float& value, const Fraction& frac) {
@@ -115,7 +115,7 @@ namespace ariel {
     }
 
     bool Fraction::operator<(const float& value) const {
-        return numerator < round(value * denominator);
+        return numerator < value * denominator;
     }
 
     bool operator<(const float& value, const Fraction& frac) {
@@ -126,7 +126,7 @@ namespace ariel {
     }
 
     bool Fraction::operator<=(const float& value) const {
-        return numerator <= round(value * denominator);
+        return numerator <= value * denominator;
     }
 
     bool operator<=(const float& value, const Fraction& frac) {
@@ -151,7 +151,7 @@ namespace ariel {
     }
 
     bool Fraction::operator>=(const float& value) const {
-        return numerator >= round(value * denominator);
+        return numerator >= value * denominator;
     }
     bool operator>=(const float& value, const Fraction& frac) {
     return frac <= value;
