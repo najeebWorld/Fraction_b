@@ -1,7 +1,17 @@
 #include "Fraction.hpp"
 #include <cmath>
+#include <set> // For std::set
+#include <cctype> // For std::isspace
 
 namespace ariel {
+    
+    void Fraction::setNumerator(int numerator){
+    this->numerator = numerator;
+}
+
+void Fraction::setDenominator(int denominator){
+    this->denominator = denominator;
+}
 
     int Fraction::gcd(int a, int b) const {
         if (b == 0) {
@@ -21,6 +31,10 @@ namespace ariel {
         }
     }
 
+    Fraction::Fraction(){
+    this->numerator = 1;
+    this->denominator = 1;
+}
     Fraction::Fraction(int numerator, int denominator)
         : numerator(numerator), denominator(denominator)
     {
@@ -138,7 +152,7 @@ namespace ariel {
     }
 
     bool Fraction::operator>(const float& value) const {
-        return numerator > round(value * denominator);
+        return numerator > value * denominator;
     }
 
     bool operator>(const float& value, const Fraction& frac) {
@@ -184,16 +198,28 @@ namespace ariel {
         return os;
     }
 
-    std::istream& operator>>(std::istream& is, Fraction& fraction) {
-        int numerator, denominator;
-        char c;
-        is >> numerator >> c >> denominator;
-        if (denominator == 0) {
-            throw std::invalid_argument("Denominator cannot be zero.");
+    
+
+
+
+
+std::istream& operator>> (std::istream& in, Fraction &f){
+        int _num, _den;
+        if(in.peek() == EOF)
+        {
+            throw("not a number error");
         }
-        fraction = Fraction(numerator, denominator);
-        return is;
-    }
+        in >> _num;
+        if(in.peek() == EOF)
+        {
+            throw("only one number error");
+        }
+        in >> _den;
+        f.setNumerator(_num);
+        f.setDenominator(_den);
+        return in;
+    };
+
 
     Fraction::operator float() const {
         return (float)numerator / (float)denominator;

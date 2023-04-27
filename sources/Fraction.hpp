@@ -16,9 +16,14 @@ namespace ariel{
             void reduce();
 
         public:
+
+            Fraction();
             Fraction(int numerator = 0, int denominator = 1);
             Fraction(float value);
             Fraction(double value);
+
+            void setNumerator(int Numerator);
+            void setDenominator(int Denominator);
 
             int getNumerator() const;
             int getDenominator() const;
