@@ -203,22 +203,24 @@ void Fraction::setDenominator(int denominator){
 
 
 
-std::istream& operator>> (std::istream& in, Fraction &f){
-        int _num, _den;
-        if(in.peek() == EOF)
-        {
-            throw("not a number error");
-        }
-        in >> _num;
-        if(in.peek() == EOF)
-        {
-            throw("only one number error");
-        }
-        in >> _den;
-        f.setNumerator(_num);
-        f.setDenominator(_den);
-        return in;
-    };
+std::istream& operator>>(std::istream& input_stream, Fraction& fraction) {
+    int numerator, denominator;
+
+    if (input_stream.peek() == EOF) {
+        throw("not a number error");
+    }
+    input_stream >> numerator;
+
+    if (input_stream.peek() == EOF) {
+        throw("only one number error");
+    }
+    input_stream >> denominator;
+
+    fraction.setNumerator(numerator);
+    fraction.setDenominator(denominator);
+    return input_stream;
+}
+
 
 
     Fraction::operator float() const {
