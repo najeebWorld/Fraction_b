@@ -1,314 +1,314 @@
-// #include <sstream>
-// #include "doctest.h"
-// #include "sources/Fraction.hpp"
-// #include <limits>
-// #include <vector>
+#include <sstream>
+#include "doctest.h"
+#include "sources/Fraction.hpp"
+#include <limits>
+#include <vector>
 
-// using namespace std;
-// using namespace ariel;
+using namespace std;
+using namespace ariel;
 
-// TEST_SUITE("Fraction constructors tests") {
+TEST_SUITE("Fraction constructors tests") {
 
-//     TEST_CASE("Parameterized constructor with zero numerator") {
-//         CHECK_NOTHROW(Fraction frac{0, 4});
-//         CHECK_NOTHROW(Fraction frac{0, -4});
+    TEST_CASE("Parameterized constructor with zero numerator") {
+        CHECK_NOTHROW(Fraction frac{0, 4});
+        CHECK_NOTHROW(Fraction frac{0, -4});
 
-//     }
+    }
 
-//     TEST_CASE("Parameterized constructor with zero denominator") {
-//         CHECK_THROWS_AS(Fraction frac(3, 0), std::invalid_argument);
-//         CHECK_THROWS_AS(Fraction frac(-4, 0), std::invalid_argument);
-//     }
+    TEST_CASE("Parameterized constructor with zero denominator") {
+        CHECK_THROWS_AS(Fraction frac(3, 0), std::invalid_argument);
+        CHECK_THROWS_AS(Fraction frac(-4, 0), std::invalid_argument);
+    }
 
-//     TEST_CASE("Parameterized constructor with regular arguments") {
-//         Fraction frac1{3, 4};
-//         CHECK_EQ(frac1, Fraction{3, 4});
+    TEST_CASE("Parameterized constructor with regular arguments") {
+        Fraction frac1{3, 4};
+        CHECK_EQ(frac1, Fraction{3, 4});
 
-//         Fraction frac2{30, -60};
-//         CHECK_EQ(frac2, Fraction{-1, 2});
-//     }
-// }
+        Fraction frac2{30, -60};
+        CHECK_EQ(frac2, Fraction{-1, 2});
+    }
+}
 
-// TEST_SUITE("Overloaded == operator tests") {
+TEST_SUITE("Overloaded == operator tests") {
 
-//     TEST_CASE("Basic equality tests") {
-//         Fraction frac1{2, 3};
-//         Fraction frac2{4, 6};
-//         CHECK_EQ(frac1, frac2);
-//     }
+    TEST_CASE("Basic equality tests") {
+        Fraction frac1{2, 3};
+        Fraction frac2{4, 6};
+        CHECK_EQ(frac1, frac2);
+    }
 
-//     TEST_CASE("Sign variations") {
-//         Fraction frac1{-1, 5};
-//         Fraction frac2{1, -5};
-//         Fraction frac3{17, 19};
-//         Fraction frac4(-17, -19);
-//         CHECK_EQ(frac1, frac2);
-//         CHECK_EQ(frac3, frac4);
-//     }
+    TEST_CASE("Sign variations") {
+        Fraction frac1{-1, 5};
+        Fraction frac2{1, -5};
+        Fraction frac3{17, 19};
+        Fraction frac4(-17, -19);
+        CHECK_EQ(frac1, frac2);
+        CHECK_EQ(frac3, frac4);
+    }
 
-//     TEST_CASE("Different numerators and denominators") {
-//         Fraction frac1(11, 13);
-//         Fraction frac2(11, 15);
-//         Fraction frac3(12, 13);
-//         CHECK_NE(frac1, frac2);
-//         CHECK_NE(frac1, frac3);
-//     }
+    TEST_CASE("Different numerators and denominators") {
+        Fraction frac1(11, 13);
+        Fraction frac2(11, 15);
+        Fraction frac3(12, 13);
+        CHECK_NE(frac1, frac2);
+        CHECK_NE(frac1, frac3);
+    }
 
-//     TEST_CASE("Reduced form equality") {
-//         Fraction frac1(6, 18);
-//         Fraction frac2(2, 6);
-//         Fraction frac3(10, 30);
-//         CHECK_EQ(frac1, frac2);
-//         CHECK_EQ(frac1, frac3);
-//     }
+    TEST_CASE("Reduced form equality") {
+        Fraction frac1(6, 18);
+        Fraction frac2(2, 6);
+        Fraction frac3(10, 30);
+        CHECK_EQ(frac1, frac2);
+        CHECK_EQ(frac1, frac3);
+    }
 
-//     TEST_CASE("Zero representations") {
-//         Fraction frac1(0, 1);
-//         Fraction frac2(0, -3);
-//         Fraction frac3(-0, 4);
-//         CHECK_EQ(frac1, frac2);
-//         CHECK_EQ(frac1, frac3);
-//     }
+    TEST_CASE("Zero representations") {
+        Fraction frac1(0, 1);
+        Fraction frac2(0, -3);
+        Fraction frac3(-0, 4);
+        CHECK_EQ(frac1, frac2);
+        CHECK_EQ(frac1, frac3);
+    }
 
-//     TEST_CASE("Equality with floating numbers") {
-//         Fraction frac1{1, 2};
-//         Fraction frac2{12963, 1000};
-//         CHECK_EQ(frac1, 0.5);
-//         CHECK_EQ(12.963, frac2);
-//         CHECK_NE(frac1, 12.963);
-//         CHECK_NE(0.5, frac2);
-//     }
-// }
-
-
-// TEST_SUITE("Overloaded <= and >= operators tests") {
-//     TEST_CASE("Fraction comparisons") {
-//         Fraction frac1{2, 3};
-//         Fraction frac2{1, 2};
-//         Fraction frac3{5, 6};
-//         Fraction frac4{-1, 5};
-//         Fraction frac5{17, 19};
-//         Fraction frac6{-17, -19};
-//         Fraction frac7{6, 18};
-//         Fraction frac8{2, 6};
-//         Fraction frac9{0, 1};
-//         Fraction frac10{7, 5};
-//         Fraction frac11{4,3};
-
-//         SUBCASE(">= operator test") {
-//             CHECK_GE(frac1, frac2);
-//             CHECK_GE(frac3, frac1);
-//             CHECK_GE(frac5, frac6);
-//             CHECK_GE(frac7, frac8);
-//             CHECK_GE(frac9, frac9);
-//             CHECK_GE(frac10, frac11);
-//             CHECK_FALSE((frac4 >= frac1));
-//             CHECK_FALSE((frac1 >= frac3));
-//         }
-
-//         SUBCASE("<= operator test") {
-//             CHECK_LE(frac2, frac1);
-//             CHECK_LE(frac1, frac3);
-//             CHECK_LE(frac6, frac5);
-//             CHECK_LE(frac8, frac7);
-//             CHECK_LE(frac9, frac9);
-//             CHECK_LE(frac11, frac10);
-//             CHECK_FALSE((frac1 <= frac4));
-//             CHECK_FALSE((frac3 <= frac1));
-//         }
-//     }
-
-//     TEST_CASE("Fraction comparison with floating point numbers") {
-//         Fraction frac1{1, 2};
-//         Fraction frac2{3, 4};
-//         double float_num1 = 0.5;
-//         double float_num2 = 0.75;
-
-//         SUBCASE(">= operator test") {
-//             CHECK_GE(frac1, float_num1);
-//             CHECK_GE(frac2, float_num2);
-//             CHECK_GE(frac2, float_num1);
-//             CHECK_FALSE((frac1 >= float_num2));
-//         }
-
-//         SUBCASE("<= operator test") {
-//             CHECK_LE(frac1, float_num1);
-//             CHECK_LE(frac2, float_num2);
-//             CHECK_LE(frac1, float_num2);
-//             CHECK_FALSE((frac2 <= float_num1));
-//         }
-//     }
-// }
-
-// TEST_SUITE("Overloaded < and > operators tests") {
-//     TEST_CASE("Fraction comparisons") {
-//         Fraction frac1{2, 3};
-//         Fraction frac2{1, 2};
-//         Fraction frac3{4, 5};
-//         Fraction frac4{1, 4};
-//         Fraction frac5{-4, 5};
-//         Fraction frac6{300, 500};
-//         Fraction frac7{1200, 2400};
-
-//         double complex_num1 = 4.321;
-//         double complex_num2 = -3.141;
-
-//         SUBCASE("Less than test") {
-//             CHECK_LT(frac2, frac1);
-//             CHECK_LT(frac4, frac1);
-//             CHECK_LT(frac5, frac2);
-//             CHECK_LT(frac6, frac3);
-//             CHECK_LT(frac7, frac6);
-//             CHECK_LT(frac1, complex_num1);
-//             CHECK_LT(complex_num2, frac5);
-//             CHECK_FALSE((frac1 < frac2));
-//             CHECK_FALSE((frac6 < frac7));
-//         }
-
-//         SUBCASE("Greater than test") {
-//             CHECK_GT(frac1, frac2);
-//             CHECK_GT(frac1, frac4);
-//             CHECK_GT(frac3, frac2);
-//             CHECK_GT(frac3, frac6);
-//             CHECK_GT(frac6, frac7);
-//             CHECK_GT(complex_num1, frac1);
-//             CHECK_GT(frac5, complex_num2);
-//             CHECK_FALSE((frac2 > frac1));
-//             CHECK_FALSE((frac7 > frac6));
-//         }
-//     }
-
-//     TEST_CASE("Other fraction comparisons") {
-//         std::vector<std::pair<Fraction, Fraction>> fracs = {
-//                 {Fraction{2, 6}, Fraction{1, 2}},
-//                 {Fraction{1000, 3000}, Fraction{1, 2}},
-//                 {Fraction{1, 4}, Fraction{1, 3}},
-//                 {Fraction{1, 3}, Fraction{2, 3}},
-//                 {Fraction{1000, 3000}, Fraction{2, 3}},
-//                 {Fraction{-1, 2}, Fraction{-1, 3}},
-//                 {Fraction{1, -2}, Fraction{-1, 3}},
-//                 {Fraction{3, -5}, Fraction{-2, 5}},
-//                 {Fraction{-500, 1000}, Fraction{1000, -3000}},
-//                 {Fraction{4, 3}, Fraction{7, 5}},
-//                 {Fraction{7, 5}, Fraction{4, 2}},
-//                 {Fraction{7, 5}, Fraction{9, 4}},
-//                 {Fraction{120, 3}, Fraction{250, 3}}
-//         };
-
-//         for (size_t i = 0; i < fracs.size(); i++) {
-//             CHECK_LT(fracs[i].first, fracs[i].second);
-//             CHECK_FALSE((fracs[i].second < fracs[i].first));
-//             CHECK_GT(fracs[i].second, fracs[i].first);
-//             CHECK_FALSE((fracs[i].first > fracs[i].second));
-//         }
-//     }
-// }
-
-// TEST_SUITE("Overloaded + and - operator tests") {
-
-//     TEST_CASE("Basic addition and subtraction") {
-//         // Small fractions
-//         CHECK_EQ(Fraction{1, 4} + Fraction{1, 4}, Fraction{1, 2});
-//         CHECK_EQ(Fraction{2, 5} - Fraction{1, 3}, Fraction{1, 15});
-
-//         // Big fractions
-//         CHECK_EQ(Fraction{123, 250} + Fraction{123, 300}, Fraction{451, 500});
-//         CHECK_EQ(Fraction{-123, 250} - Fraction{127, 300}, Fraction{-1373, 1500});
-
-//         // Negative in numerator
-//         CHECK_EQ(Fraction{-3, 7} + Fraction{5, 14}, Fraction{-1, 14});
-//         CHECK_EQ(Fraction{-3, 7} - Fraction{5, 14}, Fraction{-11, 14});
-
-//         // Negative in denominator
-//         CHECK_EQ(Fraction{5, -7} + Fraction{3, -14}, Fraction{13, -14});
-//         CHECK_EQ(Fraction{5, -7} - Fraction{3, 14}, Fraction{13, -14});
-
-//         // Negative in both
-//         CHECK_EQ(Fraction{-5, -7} + Fraction{-3, -14}, Fraction{13, 14});
-//         CHECK_EQ(Fraction{-5, -7} - Fraction{-3, -14}, Fraction{1, 2});
-
-//         // Reduced and expanded fractions
-//         CHECK_EQ(Fraction{3, 6} + Fraction{1, 2}, Fraction{1, 1});
-//         CHECK_EQ(Fraction{10, 30} - Fraction{2, 3}, Fraction{-1, 3});
-
-//         // Adding and subtracting integers
-//         CHECK_EQ(Fraction{3, 1} + Fraction{-4, 1}, Fraction{-1, 1});
-//         CHECK_EQ(Fraction{5, 1} - Fraction{2, 1}, Fraction{3, 1});
-
-//         // Different numerator and same denominator
-//         CHECK_EQ(Fraction{3, 7} + Fraction{2, 7}, Fraction{5, 7});
-//         CHECK_EQ(Fraction{6, 11} - Fraction{3, 11}, Fraction{3, 11});
-
-//         // Adding and subtracting a combination of integers and fractions
-//         CHECK_EQ(Fraction{3, 1} + Fraction{2, 3}, Fraction{11, 3});
-//         CHECK_EQ(Fraction{-4, 1} - Fraction{5, 6}, Fraction{-29, 6});
-//     }
-
-//     TEST_CASE("Subtracting a negative fraction") {
-//         CHECK_EQ(Fraction{2, 5} - Fraction{-1, 3}, Fraction{11, 15});
-//         CHECK_EQ(Fraction{3, 7} - Fraction{2, -5}, Fraction{29, 35});
-//         CHECK_EQ(Fraction{1, 4} - Fraction{-1, 2}, Fraction{6, 8});
-//         CHECK_EQ(Fraction{3, 2} - Fraction{1, -2}, Fraction{2, 1});
-//         CHECK_EQ(Fraction{1, 2} - Fraction{-5, 2}, Fraction{3, 1});
-//     }
-
-//     TEST_CASE("Adding and subtracting zero to a fraction, both as a fraction and as a floating point") {
-//         Fraction f1{2, 5};
-
-//         // Adding zero as a fraction
-//         CHECK_EQ(f1 + Fraction{0, 5}, f1);
-
-//         // Adding zero as a floating point from left
-//         CHECK_EQ(f1 + 0.0, f1);
-
-//         // Adding zero as a floating point from right
-//         CHECK_EQ(0.0 + f1, f1);
-
-//         // Subtracting zero as a fraction
-//         CHECK_EQ(f1 - Fraction{0, 5}, f1);
-
-//         // Subtracting zero as a floating point
-//         CHECK_EQ(f1 - 0.0, f1);
+    TEST_CASE("Equality with floating numbers") {
+        Fraction frac1{1, 2};
+        Fraction frac2{12963, 1000};
+        CHECK_EQ(frac1, 0.5);
+        CHECK_EQ(12.963, frac2);
+        CHECK_NE(frac1, 12.963);
+        CHECK_NE(0.5, frac2);
+    }
+}
 
 
-//         // Subtracting a fraction from zero
-//         CHECK_EQ(0.0 - f1, Fraction{-2, 5});
-//     }
+TEST_SUITE("Overloaded <= and >= operators tests") {
+    TEST_CASE("Fraction comparisons") {
+        Fraction frac1{2, 3};
+        Fraction frac2{1, 2};
+        Fraction frac3{5, 6};
+        Fraction frac4{-1, 5};
+        Fraction frac5{17, 19};
+        Fraction frac6{-17, -19};
+        Fraction frac7{6, 18};
+        Fraction frac8{2, 6};
+        Fraction frac9{0, 1};
+        Fraction frac10{7, 5};
+        Fraction frac11{4,3};
 
-//     TEST_CASE("Adding and subtracting floating-point variables from both sides") {
+        SUBCASE(">= operator test") {
+            CHECK_GE(frac1, frac2);
+            CHECK_GE(frac3, frac1);
+            CHECK_GE(frac5, frac6);
+            CHECK_GE(frac7, frac8);
+            CHECK_GE(frac9, frac9);
+            CHECK_GE(frac10, frac11);
+            CHECK_FALSE((frac4 >= frac1));
+            CHECK_FALSE((frac1 >= frac3));
+        }
 
-//         // Adding a fraction to a simple floating-point number
-//         CHECK_EQ(Fraction{1, 2} + 0.5, Fraction{1, 1});
-//         CHECK_EQ(Fraction{1, 4} + 0.75, Fraction{5, 5});
+        SUBCASE("<= operator test") {
+            CHECK_LE(frac2, frac1);
+            CHECK_LE(frac1, frac3);
+            CHECK_LE(frac6, frac5);
+            CHECK_LE(frac8, frac7);
+            CHECK_LE(frac9, frac9);
+            CHECK_LE(frac11, frac10);
+            CHECK_FALSE((frac1 <= frac4));
+            CHECK_FALSE((frac3 <= frac1));
+        }
+    }
 
-//         // Adding a fraction to a complex floating-point number
-//         CHECK_EQ(Fraction{1, 3} + 4.321, 4.654);
-//         CHECK_EQ(Fraction{2, 5} + 3.678, Fraction{2039, 500});
+    TEST_CASE("Fraction comparison with floating point numbers") {
+        Fraction frac1{1, 2};
+        Fraction frac2{3, 4};
+        double float_num1 = 0.5;
+        double float_num2 = 0.75;
 
-//         // Subtracting a simple floating-point number from a fraction
-//         CHECK_EQ(Fraction{1, 2} - 0.25, Fraction{2, 8});
-//         CHECK_EQ(Fraction{3, 4} - 0.5, Fraction{1, 4});
+        SUBCASE(">= operator test") {
+            CHECK_GE(frac1, float_num1);
+            CHECK_GE(frac2, float_num2);
+            CHECK_GE(frac2, float_num1);
+            CHECK_FALSE((frac1 >= float_num2));
+        }
 
-//         // Subtracting a complex floating-point number from a fraction
-//         CHECK_EQ(Fraction{7, 2} - 1.321, Fraction{2179, 1000});
-//         CHECK_EQ(Fraction{9, 4} - 0.678, Fraction{393, 250});
+        SUBCASE("<= operator test") {
+            CHECK_LE(frac1, float_num1);
+            CHECK_LE(frac2, float_num2);
+            CHECK_LE(frac1, float_num2);
+            CHECK_FALSE((frac2 <= float_num1));
+        }
+    }
+}
 
-//         // Subtracting a fraction from a simple floating-point number
-//         CHECK_EQ(1.5 - Fraction{1, 2}, Fraction{1, 1});
-//         CHECK_EQ(1.0 - Fraction{1, 4}, Fraction{3, 4});
+TEST_SUITE("Overloaded < and > operators tests") {
+    TEST_CASE("Fraction comparisons") {
+        Fraction frac1{2, 3};
+        Fraction frac2{1, 2};
+        Fraction frac3{4, 5};
+        Fraction frac4{1, 4};
+        Fraction frac5{-4, 5};
+        Fraction frac6{300, 500};
+        Fraction frac7{1200, 2400};
 
-//         // Subtracting a fraction from a complex floating-point number
-//         CHECK_EQ(5.321 - Fraction{2, 3}, Fraction{2327, 500});
-//         CHECK_EQ(3.678 - Fraction{3, 4}, Fraction{366, 125});
+        double complex_num1 = 4.321;
+        double complex_num2 = -3.141;
 
-//         // Adding a simple floating-point number to a fraction (simple)
-//         CHECK_EQ(0.5 + Fraction{1, 2}, 1.0);
-//         CHECK_EQ(0.75 + Fraction{1, 5}, Fraction{19, 20});
+        SUBCASE("Less than test") {
+            CHECK_LT(frac2, frac1);
+            CHECK_LT(frac4, frac1);
+            CHECK_LT(frac5, frac2);
+            CHECK_LT(frac6, frac3);
+            CHECK_LT(frac7, frac6);
+            CHECK_LT(frac1, complex_num1);
+            CHECK_LT(complex_num2, frac5);
+            CHECK_FALSE((frac1 < frac2));
+            CHECK_FALSE((frac6 < frac7));
+        }
 
-//         // Adding a complex floating-point number to a fraction
-//         CHECK_EQ(4.321 + Fraction{1, 3}, Fraction{2327, 500});
-//         CHECK_EQ(3.678 + Fraction{2, 5}, Fraction{2039, 500});
-//     }
+        SUBCASE("Greater than test") {
+            CHECK_GT(frac1, frac2);
+            CHECK_GT(frac1, frac4);
+            CHECK_GT(frac3, frac2);
+            CHECK_GT(frac3, frac6);
+            CHECK_GT(frac6, frac7);
+            CHECK_GT(complex_num1, frac1);
+            CHECK_GT(frac5, complex_num2);
+            CHECK_FALSE((frac2 > frac1));
+            CHECK_FALSE((frac7 > frac6));
+        }
+    }
+
+    TEST_CASE("Other fraction comparisons") {
+        std::vector<std::pair<Fraction, Fraction>> fracs = {
+                {Fraction{2, 6}, Fraction{1, 2}},
+                {Fraction{1000, 3000}, Fraction{1, 2}},
+                {Fraction{1, 4}, Fraction{1, 3}},
+                {Fraction{1, 3}, Fraction{2, 3}},
+                {Fraction{1000, 3000}, Fraction{2, 3}},
+                {Fraction{-1, 2}, Fraction{-1, 3}},
+                {Fraction{1, -2}, Fraction{-1, 3}},
+                {Fraction{3, -5}, Fraction{-2, 5}},
+                {Fraction{-500, 1000}, Fraction{1000, -3000}},
+                {Fraction{4, 3}, Fraction{7, 5}},
+                {Fraction{7, 5}, Fraction{4, 2}},
+                {Fraction{7, 5}, Fraction{9, 4}},
+                {Fraction{120, 3}, Fraction{250, 3}}
+        };
+
+        for (size_t i = 0; i < fracs.size(); i++) {
+            CHECK_LT(fracs[i].first, fracs[i].second);
+            CHECK_FALSE((fracs[i].second < fracs[i].first));
+            CHECK_GT(fracs[i].second, fracs[i].first);
+            CHECK_FALSE((fracs[i].first > fracs[i].second));
+        }
+    }
+}
+
+TEST_SUITE("Overloaded + and - operator tests") {
+
+    TEST_CASE("Basic addition and subtraction") {
+        // Small fractions
+        CHECK_EQ(Fraction{1, 4} + Fraction{1, 4}, Fraction{1, 2});
+        CHECK_EQ(Fraction{2, 5} - Fraction{1, 3}, Fraction{1, 15});
+
+        // Big fractions
+        CHECK_EQ(Fraction{123, 250} + Fraction{123, 300}, Fraction{451, 500});
+        CHECK_EQ(Fraction{-123, 250} - Fraction{127, 300}, Fraction{-1373, 1500});
+
+        // Negative in numerator
+        CHECK_EQ(Fraction{-3, 7} + Fraction{5, 14}, Fraction{-1, 14});
+        CHECK_EQ(Fraction{-3, 7} - Fraction{5, 14}, Fraction{-11, 14});
+
+        // Negative in denominator
+        CHECK_EQ(Fraction{5, -7} + Fraction{3, -14}, Fraction{13, -14});
+        CHECK_EQ(Fraction{5, -7} - Fraction{3, 14}, Fraction{13, -14});
+
+        // Negative in both
+        CHECK_EQ(Fraction{-5, -7} + Fraction{-3, -14}, Fraction{13, 14});
+        CHECK_EQ(Fraction{-5, -7} - Fraction{-3, -14}, Fraction{1, 2});
+
+        // Reduced and expanded fractions
+        CHECK_EQ(Fraction{3, 6} + Fraction{1, 2}, Fraction{1, 1});
+        CHECK_EQ(Fraction{10, 30} - Fraction{2, 3}, Fraction{-1, 3});
+
+        // Adding and subtracting integers
+        CHECK_EQ(Fraction{3, 1} + Fraction{-4, 1}, Fraction{-1, 1});
+        CHECK_EQ(Fraction{5, 1} - Fraction{2, 1}, Fraction{3, 1});
+
+        // Different numerator and same denominator
+        CHECK_EQ(Fraction{3, 7} + Fraction{2, 7}, Fraction{5, 7});
+        CHECK_EQ(Fraction{6, 11} - Fraction{3, 11}, Fraction{3, 11});
+
+        // Adding and subtracting a combination of integers and fractions
+        CHECK_EQ(Fraction{3, 1} + Fraction{2, 3}, Fraction{11, 3});
+        CHECK_EQ(Fraction{-4, 1} - Fraction{5, 6}, Fraction{-29, 6});
+    }
+
+    TEST_CASE("Subtracting a negative fraction") {
+        CHECK_EQ(Fraction{2, 5} - Fraction{-1, 3}, Fraction{11, 15});
+        CHECK_EQ(Fraction{3, 7} - Fraction{2, -5}, Fraction{29, 35});
+        CHECK_EQ(Fraction{1, 4} - Fraction{-1, 2}, Fraction{6, 8});
+        CHECK_EQ(Fraction{3, 2} - Fraction{1, -2}, Fraction{2, 1});
+        CHECK_EQ(Fraction{1, 2} - Fraction{-5, 2}, Fraction{3, 1});
+    }
+
+    TEST_CASE("Adding and subtracting zero to a fraction, both as a fraction and as a floating point") {
+        Fraction f1{2, 5};
+
+        // Adding zero as a fraction
+        CHECK_EQ(f1 + Fraction{0, 5}, f1);
+
+        // Adding zero as a floating point from left
+        CHECK_EQ(f1 + 0.0, f1);
+
+        // Adding zero as a floating point from right
+        CHECK_EQ(0.0 + f1, f1);
+
+        // Subtracting zero as a fraction
+        CHECK_EQ(f1 - Fraction{0, 5}, f1);
+
+        // Subtracting zero as a floating point
+        CHECK_EQ(f1 - 0.0, f1);
+
+
+        // Subtracting a fraction from zero
+        CHECK_EQ(0.0 - f1, Fraction{-2, 5});
+    }
+
+    TEST_CASE("Adding and subtracting floating-point variables from both sides") {
+
+        // Adding a fraction to a simple floating-point number
+        CHECK_EQ(Fraction{1, 2} + 0.5, Fraction{1, 1});
+        CHECK_EQ(Fraction{1, 4} + 0.75, Fraction{5, 5});
+
+        // Adding a fraction to a complex floating-point number
+        CHECK_EQ(Fraction{1, 3} + 4.321, 4.654);
+        CHECK_EQ(Fraction{2, 5} + 3.678, Fraction{2039, 500});
+
+        // Subtracting a simple floating-point number from a fraction
+        CHECK_EQ(Fraction{1, 2} - 0.25, Fraction{2, 8});
+        CHECK_EQ(Fraction{3, 4} - 0.5, Fraction{1, 4});
+
+        // Subtracting a complex floating-point number from a fraction
+        CHECK_EQ(Fraction{7, 2} - 1.321, Fraction{2179, 1000});
+        CHECK_EQ(Fraction{9, 4} - 0.678, Fraction{393, 250});
+
+        // Subtracting a fraction from a simple floating-point number
+        CHECK_EQ(1.5 - Fraction{1, 2}, Fraction{1, 1});
+        CHECK_EQ(1.0 - Fraction{1, 4}, Fraction{3, 4});
+
+        // Subtracting a fraction from a complex floating-point number
+        CHECK_EQ(5.321 - Fraction{2, 3}, Fraction{2327, 500});
+        CHECK_EQ(3.678 - Fraction{3, 4}, Fraction{366, 125});
+
+        // Adding a simple floating-point number to a fraction (simple)
+        CHECK_EQ(0.5 + Fraction{1, 2}, 1.0);
+        CHECK_EQ(0.75 + Fraction{1, 5}, Fraction{19, 20});
+
+        // Adding a complex floating-point number to a fraction
+        CHECK_EQ(4.321 + Fraction{1, 3}, Fraction{2327, 500});
+        CHECK_EQ(3.678 + Fraction{2, 5}, Fraction{2039, 500});
+    }
 
 //     TEST_CASE("Inequality checks for fractions") {
 //         CHECK_NE(Fraction{1, 2} + Fraction{1, 4}, Fraction{1, 2});
@@ -753,3 +753,5 @@
 //     CHECK_NOTHROW(f5 + Fraction{1, 1});
 //     CHECK_NOTHROW(f7 - Fraction{1, 1});
 // }
+
+}

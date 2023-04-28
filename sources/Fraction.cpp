@@ -25,16 +25,17 @@ void Fraction::setDenominator(int denominator){
             denominator = 1;
         }
         else {
-            int gcdValue = gcd(abs(numerator), abs(denominator));
-            numerator /= gcdValue;
-            denominator /= gcdValue;
+            
+            int gc = gcd(abs(numerator), abs(denominator));
+            numerator /= gc;
+            denominator /= gc;
+            if (denominator < 0) {
+            numerator *= -1;
+            denominator *= -1;
         }
-    }
+    }}
 
-    Fraction::Fraction(){
-    this->numerator = 1;
-    this->denominator = 1;
-}
+    
     Fraction::Fraction(int numerator, int denominator)
         : numerator(numerator), denominator(denominator)
     {
@@ -67,18 +68,26 @@ void Fraction::setDenominator(int denominator){
     Fraction Fraction::operator+(const Fraction& other) const {
         return Fraction(numerator * other.denominator + other.numerator * denominator, denominator * other.denominator);
     }
+    
 
-    Fraction Fraction::operator+(const float& value) const {
-        return *this + Fraction(value);
-    }
 
-    Fraction operator+(const float& value, const Fraction& frac) {
-        return frac + value;
-    }
+    Fraction operator+(float f1, const Fraction& f2){
+        Fraction Frac_f1(f1);
+        Fraction result(Frac_f1 + f2);
+        return result;
+}
+
+    Fraction operator+(const Fraction& f2, float f1){
+        Fraction Frac_f1(f1);
+        Fraction result(f2 + Frac_f1);
+        return result;
+}
 
     Fraction Fraction::operator-(const Fraction& other) const {
         return Fraction(numerator * other.denominator - other.numerator * denominator, denominator * other.denominator);
     }
+
+    
 
     Fraction Fraction::operator-(const float& value) const {
         return *this - Fraction(value);
@@ -231,4 +240,3 @@ std::istream& operator>>(std::istream& input_stream, Fraction& fraction) {
     }
 
 
-    
