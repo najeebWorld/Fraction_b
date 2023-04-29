@@ -13,14 +13,14 @@ void Fraction::setDenominator(int denominator){
     this->denominator = denominator;
 }
 
-    int Fraction::gcd(int a, int b) const {
+int Fraction::gcd(int a, int b) const {
         if (b == 0) {
             return a;
         }
         return gcd(b, a % b);
     }
 
-    void Fraction::reduce() {
+void Fraction::reduce() {
         if (numerator == 0) {
             denominator = 1;
         }
@@ -45,11 +45,20 @@ void Fraction::setDenominator(int denominator){
         reduce();
     }
 
+    // Fraction::Fraction(){
+    //     this->numerator = 1;
+    //     this->denominator = 1;
+    // }
+
     Fraction::Fraction(float value) {
-        numerator = value * 1000;
-        denominator = 1000;
-        reduce();
+        //change the float to fraction 
+        int val = value*1000;
+        int gc = gcd(val,1000);
+        this->numerator = val/gc;
+        this->denominator = 1000/gc;
+        
     }
+    
     Fraction::Fraction(double value) {
     numerator = value * 1000;
     denominator = 1000;
@@ -238,5 +247,3 @@ std::istream& operator>>(std::istream& input_stream, Fraction& fraction) {
 
 
     }
-
-

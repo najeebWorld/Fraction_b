@@ -1,4 +1,3 @@
-
 #ifndef FRACTION_H
 #define FRACTION_H
 
@@ -17,6 +16,7 @@ namespace ariel{
 
         public:
 
+            // Fraction();
             Fraction(int numerator = 0, int denominator = 1);
             Fraction(float value);
             Fraction(double value);
@@ -24,7 +24,6 @@ namespace ariel{
             void setNumerator(int Numerator);
             void setDenominator(int Denominator);
             
-            void normalize();
             
             int getNumerator() const;
             int getDenominator() const;
