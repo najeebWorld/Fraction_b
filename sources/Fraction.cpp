@@ -52,7 +52,6 @@ Fraction::Fraction(float num){
     reduce();
 }
 
-Fraction::Fraction(const Fraction& other) noexcept : numerator(other.numerator), denominator(other.denominator) {}
 
 //***
 void add_overflow_check(int a, int b){
@@ -156,14 +155,6 @@ bool Fraction::operator<=(const Fraction& other) const {
 
 //***
 
-Fraction& Fraction::operator=(const Fraction& other) noexcept {
-    if (this != &other) {
-        this->numerator = other.numerator;
-        this->denominator = other.denominator;
-    }
-    return *this;
-}
-//***
 
 bool ariel::operator>(float frac1, const Fraction& frac2) {
     return frac1 > (float)frac2.getNumerator() / (float)frac2.getDenominator();
@@ -299,22 +290,5 @@ void Fraction::setNumerator(int n){
 void Fraction::setDenomirator(int n){
     this->denominator = n;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
