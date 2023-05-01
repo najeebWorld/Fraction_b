@@ -22,8 +22,8 @@ void Fraction::reduce() {
         this->numerator /= gc;
         this->denominator /= gc;
         if (this->denominator < 0) {
-        this->numerator *= -1;
-        this->denominator *= -1;
+            this->numerator *= -1;
+            this->denominator *= -1;
     }
     }}
 Fraction::Fraction(){
@@ -40,41 +40,80 @@ Fraction::Fraction(int numerator, int denominator) : numerator(numerator), denom
 
 Fraction::Fraction(float num){
     // Convert the float to a fraction
-    int val = num*1000;
-    int gcd = __gcd(val, 1000);
-    this->numerator = val/gcd;
-    this->denominator = 1000/gcd;
+    if(num != 0){int val = num*1000;
+        int gcd = __gcd(val, 1000);
+        this->numerator = val/gcd;
+        this->denominator = 1000/gcd;
+    }
+    else{
+        this->numerator =0;
+        this->denominator = 1;
+    }
+    reduce();
 }
 
 Fraction::Fraction(const Fraction& other) noexcept : numerator(other.numerator), denominator(other.denominator) {}
 
 //***
-
+void add_overflow_check(int a, int b){
+    if( a > 0 && b >0 && (a+b)<0){
+        throw overflow_error("");
+    }
+    if( a < 0 && b < 0 && (a+b)>0){
+        throw overflow_error("");
+    }
+}
 Fraction Fraction::operator+ (const Fraction& other) const {
+    mul_overflow_check(numerator , other.denominator);
+    mul_overflow_check(other.numerator , denominator);
+    add_overflow_check(numerator * other.denominator, other.numerator * denominator);
     int newNumerator = (numerator * other.denominator) + (other.numerator * denominator);
     int newDenominator = denominator * other.denominator;
     return Fraction(newNumerator, newDenominator);
 }
 
 Fraction Fraction::operator-(const Fraction& other) const {
+    
+    mul_overflow_check(numerator , other.denominator);
+    mul_overflow_check(other.numerator , denominator);
+    add_overflow_check(numerator * other.denominator, -other.numerator * denominator);
+    if(other.numerator * -1 == other.numerator && other.numerator != 0){
+        throw std::overflow_error("");
+    }
     int new_num = (numerator * other.denominator) - (other.numerator * denominator);
     int new_den = denominator * other.denominator;
     return Fraction(new_num, new_den);
 }
 
+void mul_overflow_check(int a, int b){
+    if(a == 0 || b == 0 ) return;
+    int c = a * b;
+    if(c / a != b )
+        throw std::overflow_error("");
+}
+
 Fraction Fraction::operator*(const Fraction& other) const {
+    mul_overflow_check(numerator , other.numerator);
     int n = numerator * other.numerator;
+    mul_overflow_check(denominator, other.denominator);
     int d = denominator * other.denominator;
     int gcd = __gcd(n, d);
     return Fraction(n / gcd, d / gcd);
 }
 
+
 Fraction Fraction::operator/(const Fraction& other) const {
+    if(other.numerator == 0 ){
+        throw std::runtime_error("div by 0");
+    }
+    mul_overflow_check(numerator , other.denominator);
     int new_num = numerator * other.denominator;
+    mul_overflow_check(denominator , other.numerator);
     int new_den = denominator * other.numerator;
     return Fraction(new_num, new_den);
 }
 //***
+
 Fraction& Fraction::operator++() {
     numerator += denominator;
     return *this;
@@ -126,80 +165,86 @@ Fraction& Fraction::operator=(const Fraction& other) noexcept {
 }
 //***
 
-bool ariel::operator>(float f1, const Fraction& f2) {
-    return f1 > (float)f2.getNumerator() / (float)f2.getDenominator();
+bool ariel::operator>(float frac1, const Fraction& frac2) {
+    return frac1 > (float)frac2.getNumerator() / (float)frac2.getDenominator();
 }
 
-bool ariel::operator<(float f1, const Fraction& f2) {
-    return f1 < (float)f2.getNumerator() / (float)f2.getDenominator();
+bool ariel::operator<(float frac1, const Fraction& frac2) {
+    return frac1 < (float)frac2.getNumerator() / (float)frac2.getDenominator();
 }
 
-bool ariel::operator>=(float f1, const Fraction& f2) {
-    return f1 >= (float)f2.getNumerator() / (float)f2.getDenominator();
+bool ariel::operator>=(float frac1, const Fraction& frac2) {
+    return frac1 >= (float)frac2.getNumerator() / (float)frac2.getDenominator();
 }
 
-bool ariel::operator<=(float f1, const Fraction& f2) {
-    return f1 <= (float)f2.getNumerator() / (float)f2.getDenominator();
+bool ariel::operator<=(float frac1, const Fraction& frac2) {
+    return frac1 <= (float)frac2.getNumerator() / (float)frac2.getDenominator();
 }
 
-bool ariel::operator>(const Fraction& f2, float f1) {
-    return (float)f2.numerator / (float)f2.denominator > f1;
+bool ariel::operator>(const Fraction& frac2, float frac1) {
+    return (float)frac2.numerator / (float)frac2.denominator > frac1;
 }
 
-bool ariel::operator<(const Fraction& f2, float f1) {
-    return (float)f2.numerator / (float)f2.denominator < f1;
+bool ariel::operator<(const Fraction& frac2, float frac1) {
+    return (float)frac2.numerator / (float)frac2.denominator < frac1;
 }
 
-bool ariel::operator>=(const Fraction& f2, float f1) {
-    return (float)f2.numerator / (float)f2.denominator >= f1;
+bool ariel::operator>=(const Fraction& frac2, float frac1) {
+    return (float)frac2.numerator / (float)frac2.denominator >= frac1;
 }
 
-bool ariel::operator<=(const Fraction& f2, float f1) {
-    return (float)f2.numerator / (float)f2.denominator <= f1;
+bool ariel::operator<=(const Fraction& frac2, float frac1) {
+    return (float)frac2.numerator / (float)frac2.denominator <= frac1;
 }
 
 //***
 
-bool ariel::operator==(const Fraction& f1, const Fraction& f2) {
-    return f1.numerator == f2.numerator && f1.denominator == f2.denominator;
+bool ariel::operator==(const Fraction& frac1, const Fraction& frac2) 
+{
+    int a = (frac1.numerator * 1000) / frac1.denominator;
+    int b = (frac2.numerator * 1000) / frac2.denominator;
+    return a == b;
+    // return frac1.numerator == frac2.numerator && frac1.denominator == frac2.denominator;
 }
 
-Fraction ariel::operator+(float f1, const Fraction& f2) {
-    return Fraction(f2.numerator + f1 * f2.denominator, f2.denominator);
+Fraction ariel::operator+(float frac1, const Fraction& frac2) {
+    return Fraction(frac1) + frac2;
+    // return Fraction(frac2.numerator + frac1 * frac2.denominator, frac2.denominator);
 }
 
-Fraction ariel::operator-(float f1, const Fraction& f2) {
-    return Fraction(f1 * f2.denominator - f2.numerator, f2.denominator);
+Fraction ariel::operator-(float frac1, const Fraction& frac2) {
+    return Fraction(frac1) - frac2;   
+    // return Fraction(frac1 * frac2.denominator - frac2.numerator, frac2.denominator);
 }
 
-Fraction ariel::operator*(float f1, const Fraction& f2) {
-    int n = f1 * f2.numerator;
-    int d = f2.denominator;
-    int gcd = __gcd(n, d);
-    return Fraction(n / gcd, d / gcd);
+Fraction ariel::operator*(float frac1, const Fraction& frac2) {
+    return Fraction(frac1) * frac2;
 }
 
-Fraction ariel::operator/(float f1, const Fraction& f2) {
-    return Fraction(f1 * f2.denominator, f2.numerator);
+Fraction ariel::operator/(float frac1, const Fraction& frac2) {
+    return Fraction(frac1) / frac2;
+    // return Fraction(frac1 * frac2.denominator, frac2.numerator);
 }
 
-Fraction ariel::operator+(const Fraction& f2, float f1) {
-    return Fraction(f2.numerator + f1 * f2.denominator, f2.denominator);
+Fraction ariel::operator+(const Fraction& frac2, float frac1) 
+{
+    return Fraction(frac1) + frac2;   
+    // return Fraction(frac2.numerator + frac1 * frac2.denominator, frac2.denominator);
 }
 
-Fraction ariel::operator-(const Fraction& f2, float f1) {
-    return Fraction(f2.numerator - f1 * f2.denominator, f2.denominator);
+Fraction ariel::operator-(const Fraction& frac2, float frac1) {
+    return frac2 - Fraction(frac1);   
+
+    // return Fraction(frac2.numerator - frac1 * frac2.denominator, frac2.denominator);
 }
 
-Fraction ariel::operator*(const Fraction& f2, float f1) {
-    int n = round(f1 * f2.numerator);
-    int d = f2.denominator;
-    int gcd = __gcd(n, d);
-    return Fraction(n / gcd, d / gcd);
+Fraction ariel::operator*(const Fraction& frac2, float frac1) {
+        return Fraction(frac1) * frac2;
     }
 
-Fraction ariel::operator/(const Fraction& f2, float f1) {
-    return Fraction(f2.numerator, f2.denominator * f1);
+Fraction ariel::operator/(const Fraction& frac2, float frac1) {
+    return frac2 / Fraction(frac1);
+    // return Fraction(frac2.numerator, frac2.denominator * frac1);
 }
 
 //***
@@ -211,19 +256,31 @@ std::ostream& ariel::operator<<(std::ostream& out, const Fraction& f) {
 
 
 std::istream& ariel::operator>>(std::istream& in, Fraction& f) {
+    
     int _num, _den;
+    if(in.peek() == '.'){
+        throw std::runtime_error("floating point error");
+    }
     if(in.peek() == EOF)
     {
-        throw("not a number error");
+        throw std::runtime_error("not a number error");
     }
     in >> _num;
+    cout << _num << endl;
+    if(in.peek() == '.'){
+        throw std::runtime_error("floating point error");
+    }
+    
     if(in.peek() == EOF)
     {
-        throw("only one number error");
+        throw std::runtime_error("only one number error");
     }
     in >> _den;
-    f.setNumerator(_num);
-    f.setDenomirator(_den);
+    cout << _den << endl;
+    if(_den == 0){
+        throw runtime_error("div by 0");
+    }
+    f = Fraction(_num, _den);
     return in;
 }
 

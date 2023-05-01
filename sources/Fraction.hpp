@@ -4,9 +4,10 @@
 #include <stdexcept>
 #include <algorithm>
 #include <cmath>
-
+void mul_overflow_check(int a, int b);
+void add_overflow_check(int a, int b);
 namespace ariel {
-
+    
     class Fraction {
         private:
             int numerator;      // The numerator of the fraction
