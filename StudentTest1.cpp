@@ -22,7 +22,7 @@ TEST_CASE("Fraction object initialization & Getters return expected values") {
     Fraction b(0.3333);
     CHECK(((b.getNumerator() == 333) && (b.getDenominator() == 1000)));
 
-    // Check that a Fraction can't be created if denominator is 0SSSS
+    // Check that a Fraction can't be created if denominator is 0
     CHECK_THROWS(Fraction(1,0));
 }
 
