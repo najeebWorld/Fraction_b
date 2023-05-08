@@ -3,7 +3,7 @@
 #include <cmath>
 using namespace ariel;
 using namespace std;
-#define MAX_NUM 1000000
+#define MAXnumber 1000000
 
 int Fraction::gcd(int a, int b) const {
     if (b == 0) {
@@ -79,9 +79,9 @@ Fraction Fraction::operator-(const Fraction& other) const {
     if(other.numerator * -1 == other.numerator && other.numerator != 0){
         throw std::overflow_error("");
     }
-    int new_num = (numerator * other.denominator) - (other.numerator * denominator);
-    int new_den = denominator * other.denominator;
-    return Fraction(new_num, new_den);
+    int newnumber = (numerator * other.denominator) - (other.numerator * denominator);
+    int newnumber1 = denominator * other.denominator;
+    return Fraction(newnumber, newnumber1);
 }
 
 void mul_overflow_check(int a, int b){
@@ -106,10 +106,10 @@ Fraction Fraction::operator/(const Fraction& other) const {
         throw std::runtime_error("div by 0");
     }
     mul_overflow_check(numerator , other.denominator);
-    int new_num = numerator * other.denominator;
+    int newnumber = numerator * other.denominator;
     mul_overflow_check(denominator , other.numerator);
-    int new_den = denominator * other.numerator;
-    return Fraction(new_num, new_den);
+    int newnumber1 = denominator * other.numerator;
+    return Fraction(newnumber, newnumber1);
 }
 //***
 
@@ -248,30 +248,30 @@ std::ostream& ariel::operator<<(std::ostream& out, const Fraction& f) {
 
 std::istream& ariel::operator>>(std::istream& in, Fraction& f) {
     
-    int _num, _den;
+    int number, number1;
     if(in.peek() == '.'){
-        throw std::runtime_error("floating point error");
+        throw std::runtime_error("point error");
     }
     if(in.peek() == EOF)
     {
-        throw std::runtime_error("not a number error");
+        throw std::runtime_error("its not number error");
     }
-    in >> _num;
-    cout << _num << endl;
+    in >> number;
+    cout << number << endl;
     if(in.peek() == '.'){
-        throw std::runtime_error("floating point error");
+        throw std::runtime_error("float error");
     }
     
     if(in.peek() == EOF)
     {
-        throw std::runtime_error("only one number error");
+        throw std::runtime_error(" one number error");
     }
-    in >> _den;
-    cout << _den << endl;
-    if(_den == 0){
-        throw runtime_error("div by 0");
+    in >> number1;
+    cout << number1 << endl;
+    if(number1 == 0){
+        throw runtime_error("div by zero");
     }
-    f = Fraction(_num, _den);
+    f = Fraction(number, number1);
     return in;
 }
 
